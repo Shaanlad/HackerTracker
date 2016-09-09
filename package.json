@@ -1,0 +1,23 @@
+{
+  "name": "hackertracker",
+  "version": "1.0.0",
+  "description": "Hackathon project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElleryW/HackerTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElleryW/HackerTracker/issues"
+  },
+  "homepage": "https://github.com/ElleryW/HackerTracker#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.9"
+  }
+}
