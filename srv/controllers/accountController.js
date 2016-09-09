@@ -1,5 +1,7 @@
+var path = require('path');
+
 module.exports.controller = function(app) {
     app.get('/login', function(req, res) {
-        //Do stuff here
+        res.sendFile(path.join(__dirname, '../../web/views', 'login.html'));
     });
 }
