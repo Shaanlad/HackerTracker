@@ -1,0 +1,79 @@
+Each PROJECT:
+	must:
+		- have a title
+		- have a description
+	can:
+		- have a list of CARDs
+
+Each CARD:
+	must:
+		- have a title
+		- have a description
+		- have a creator (USER)
+	can:
+		- have a due date
+		- have a list of assignees (USERs)
+		- have a list of COMMENTs
+
+Each USER:
+	must:
+		- have a name
+		- belong to a GROUP
+
+Each GROUP
+	must:
+		- have a name
+
+Each COMMENT
+	must:
+		- have a text
+		- have a creator (USER)
+
+Note: A date field createdon will be present for every record.
+
+
+--------------------------------------------------------------------
+
+
+Sample Project:
+	"project" :{
+		"title": "Hacker Tracker",
+		"description": "A project tracker that will be productive and simple, no fancy stuff."
+	}
+
+Sample Cards:
+	"cards": [
+		{
+			"title": "List down requirements",
+			"description": "We need to jot down use cases as bullet points to get our heads clear and aligned.",
+			"creator": "Ellery"
+		},
+		{
+			"title": "Create sample object",
+			"description": "Having sample objects ready will make it easier to develop the web service as well as the GUI",
+			"creator": "Shantanu",
+			"due": "09/09/2016",
+			"assignees": [
+				"Ellery", "Mohit"
+			],
+			"comment": [
+				{
+					"text": "Obviously, no way we can start without it",
+					"creator": "Kartikya",
+					"createdon": "09/09/2016 16:53PM"
+				}
+			],
+			"createdon": "09/09/2016 10:00AM"
+		}
+	]
+
+Sample User:
+	{
+		"name": "Mohit",
+		"group": "Oreo Slackers"
+	}
+
+Sample Group:
+	{
+		"name": "Oreo Slackers"
+	}
