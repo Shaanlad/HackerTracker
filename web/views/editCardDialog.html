@@ -1,0 +1,40 @@
+<md-dialog aria-label="Create New Project">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{card.name}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container>
+            <label for="name">
+                Name:
+            </label>
+            <input class="md-input" type="text" id="name" data-ng-model="card.name" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="description">
+                Description:
+            </label>
+            <input class="md-input" type="text" id="description" data-ng-model="card.description" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="startDate">
+                Start Date:
+            </label>
+            <md-datepicker id="startDate" data-ng-model="card.startDate">
+        </md-input-container>
+        <md-input-container>
+            <label for="endDate">
+                End Date:
+            </label>
+            <md-datepicker id="endDate" data-ng-model="card.endDate" required>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>
