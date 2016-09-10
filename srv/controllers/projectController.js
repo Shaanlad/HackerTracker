@@ -25,7 +25,6 @@ module.exports.controller = function (app, mongoose) {
 
     //Get project with specified projectId
     app.get('/project/:projectId', function(req, res) {
-        console.log(req.params.projectId);
         // If user isn't already logged in
         if (!req.session['user_id']) {
             // Take him to login page
@@ -36,6 +35,50 @@ module.exports.controller = function (app, mongoose) {
                 req.params.projectId,
                 function(err, result) {
                     res.json(result);
+                });
+        }
+    });
+
+    //Update project's basic info having specified projectId
+    app.put('/project/:projectId', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    project.name = req.body.name;
+                    project.description = req.body.description;
+                    res.json(result);
+                });
+        }
+    });
+
+    //Add state to the project having specified projectId
+    app.post('/project/:projectId/state', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    project.update(
+                        {$push: {"states": req.body.state}},
+                        {safe: true, upsert: true, new : true},
+                        function(err) {
+                            if (err)
+                                res.json(err);
+                            else
+                                res.json({success: true, message: "State added to the project"});
+                            return;
+                        }
+                    );
                 });
         }
     });

@@ -1,4 +1,4 @@
-angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', function($http, $scope, $routeParams, $mdDialog) {
+angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', '$mdToast', function($http, $scope, $routeParams, $mdDialog, $mdToast) {
 
     $scope.project = {};
     $scope.newCard = {};
@@ -25,13 +25,6 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     $scope.toggleCenterAnchor = function () {
         $scope.centerAnchor = !$scope.centerAnchor
     }
-
-    var onDraggableEvent = function (evt, data) {
-        console.log("128", "onDraggableEvent", evt, data);
-    }
-
-    $scope.$on('draggable:start', onDraggableEvent);
-    $scope.$on('draggable:end', onDraggableEvent);
 
     $scope.onDropComplete = function (stateName, data, evt) {
         var index = $scope.GetCards(stateName).indexOf(data);
@@ -126,8 +119,25 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
 
         $scope.create = function() {
-            $scope.project.states.push(angular.copy($scope.newState));
-            $mdDialog.cancel();            
+            $http.post("/project/" + $routeParams.id + "/state", {
+                state: $scope.newState
+            }).then(function(response) {
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.project.states.push(angular.copy($scope.newState));
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
+                }
+            }, function (response) {
+                alert(response);
+            });
+
         };
     };
 
