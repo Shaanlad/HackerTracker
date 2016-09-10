@@ -7,10 +7,13 @@ var headerCookie = require('cookie');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
-var User = require('./srv/models/userModel.js');
 var Users = require('./srv/models/userCollection.js');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+
+var config = require('config');
+var mongoose   = require('mongoose');
+mongoose.connect(config.mongodbUrl);
 
 var appSession = session({
     secret: 'cookiesalt',
@@ -28,7 +31,7 @@ app.use(bodyParser.json());
 fs.readdirSync('./srv/controllers').forEach(function(file) {
     if (file.substr(-3) == '.js') {
         var route = require('./srv/controllers/' + file);
-        route.controller(app);
+        route.controller(app, mongoose);
     }
 });
 

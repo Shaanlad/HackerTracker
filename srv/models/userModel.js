@@ -1,14 +1,18 @@
-function User(userName) {
-    this.userName = userName;
-    this.socketId = null;
-};
+var mongoose	= require('mongoose');
+var Schema 		= mongoose.Schema;
 
-User.prototype.SetSocketId = function(socketId) {
+var UserSchema = new Schema({
+	userName: String,
+	password: String,
+	socketId: String
+});
+
+UserSchema.methods.SetSocketId = function(socketId) {
     this.socketId = socketId;
     // TODO: Free previously associated socket
 };
 
-User.prototype.GetSocket = function(sockets) {
+UserSchema.methods.GetSocket = function(sockets) {
     for (var i = 0; i < sockets.length; i += 1) {
         if (sockets[i].id === this.socketId) {
             return sockets[i];
@@ -16,4 +20,4 @@ User.prototype.GetSocket = function(sockets) {
     }
 };
 
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);

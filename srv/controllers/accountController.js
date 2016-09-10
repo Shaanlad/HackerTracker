@@ -1,8 +1,7 @@
 var path = require('path');
-var MongoClient = require('mongodb').MongoClient;
-var config = require('config');
+var User = require('../models/userModel.js');
 
-module.exports.controller = function(app) {
+module.exports.controller = function(app, mongoose) {
     app.get('/login', function(req, res) {
         // If user isn't already logged in
         if (!req.session['user_id']) {
@@ -27,8 +26,7 @@ module.exports.controller = function(app) {
         // if userName and password are provided
         if (req.body.userName && req.body.password) {
             // if user credentials match our records
-            MongoClient.connect(config.mongodbUrl, function(err, db) {
-                db.collection("UserCollection").findOne({
+            User.findOne({
                     userName: req.body.userName,
                     password: req.body.password
                 }, function(err, result) {
@@ -44,7 +42,6 @@ module.exports.controller = function(app) {
                             //     maxAge: cookieValidityAge
                             // });
                             req.session["user_id"] = result._id.toString();
-                            db.close();
                             res.json({
                                 success: true,
                                 route: "/"
@@ -65,7 +62,6 @@ module.exports.controller = function(app) {
                         });
                     }
                 });
-            });
         } else {
             // tell him userName and password are required
             res.json({

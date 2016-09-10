@@ -1,9 +1,7 @@
 var path = require('path');
-var MongoClient = require('mongodb').MongoClient;
-var config = require('config');
 var Project = require('../models/projectModel.js');
 
-module.exports.controller = function (app) {
+module.exports.controller = function (app, mongoose) {
     //Get all projects for specific user
     app.get('/project', function(req, res) {
         // If user isn't already logged in
@@ -12,15 +10,34 @@ module.exports.controller = function (app) {
             res.redirect('/login');
         }
         else{
-            MongoClient.connect(config.mongodbUrl, function(err, db) {
-                db.collection("ProjectCollection").find({
+            Project.find({
                     users: req.session['user_id']
-                }).sort({ name: -1 }).toArray(function(err, result) {
+                },
+                null,
+                {
+                    sort:{name: -1}
+                },
+                function(err, result) {
                     res.json(result);
                 });
-                db.close();
-            });
         };
+    });
+
+    //Get project with specified projectId
+    app.get('/project/:projectId', function(req, res) {
+        console.log(req.params.projectId);
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, result) {
+                    res.json(result);
+                });
+        }
     });
 
     //Create project
@@ -36,13 +53,11 @@ module.exports.controller = function (app) {
             project.description = req.body.description;
             project.users = [req.session['user_id']];
 
-            MongoClient.connect(config.mongodbUrl, function(err, db) {
-                db.collection("ProjectCollection").insert(project, function(err, result) {
-                    if (err)
-                        res.json(err);
-                    else
-                        res.json(result);
-                });
+            project.save(function(err, result) {
+                if (err)
+                    res.json(err);
+                else
+                    res.json(result);
             });
         };
     });

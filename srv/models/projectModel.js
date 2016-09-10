@@ -1,9 +1,12 @@
-function Project() {
-    this.name = "";
-    this.description = "";
-    this.users = [];
-    this.cards = [];
-    this.states = [];
-};
+var mongoose	= require('mongoose');
+var Schema		= mongoose.Schema;
 
-module.exports = Project;
+var ProjectSchema = new Schema({
+	name: String,
+	description: String,
+	users: [],
+	cards: [],
+	states: []
+});
+
+module.exports = mongoose.model('Project', ProjectSchema);
