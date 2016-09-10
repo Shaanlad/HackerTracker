@@ -1,7 +1,9 @@
 angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', function($http, $scope, $routeParams, $mdDialog) {
 
     $scope.project = {};
-    $scope.card = {};
+    $scope.newCard = {
+        name: ''
+    };
     
     $http.get('project/' + $routeParams.id).then(function(response) {
         console.log(response.data);
@@ -40,7 +42,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         var index = array.indexOf(obj);
     }
 
-    $scope.showCardCreator = function(ev) {
+    $scope.showCardCreator = function(container, ev) {
+        $scope.newCard.container = container;
         $mdDialog.show({
             controller: DialogController,
             scope: $scope.$new(),
@@ -58,16 +61,17 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     };
 
     function DialogController($scope, $mdDialog) {
-        $scope.card.name = '';
-        $scope.card.description = '';
+        $scope.newCard.name = '';
+        $scope.newCard.description = '';
 
         $scope.cancel = function() {
-            $scope.card.name = '';
-            $scope.card.description = '';
+            $scope.newCard.name = '';
+            $scope.newCard.description = '';
             $mdDialog.cancel();
         };
 
         $scope.create = function() {
+            $scope[$scope.newCard.container].push(angular.copy($scope.newCard));
             $mdDialog.cancel();            
         };
     };

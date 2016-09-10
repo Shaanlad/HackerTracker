@@ -72,19 +72,14 @@
     </style>
 </head>
 
-<md-button data-ng-click="showCardCreator($event)" class="md-primary md-raised">New Card</md-button>
-
 <ul class="draggable-objects">
-    <li ng-if="true">
-        <div ng-drag="true" ng-drag-data="{name:'Sample Card'}" data-allow-transform="true">Card</div>
-    </li>
-    <li ng-if="true">
-        <div ng-drag="true" ng-drag-data="{name:card.name}" data-allow-transform="true">{{card}}</div>
+    <li ng-if="true" ng-hide="true">
+        <div ng-drag="true" ng-drag-data="{name:newCard.name}" data-allow-transform="true">{{newCard.name}}</div>
     </li>
 </ul>
 
 <hr/>
-<div ng-drop="true" ng-drop-success="onDropComplete('unassignedCards',$data,$event)">
+<div ng-drop="true" ng-drop-success="onDropComplete('unassignedCards',$data,$event)" data-ng-click="showCardCreator('unassignedCards', $event)">
     <span class="title">Open Items</span>
     <div ng-repeat="card in unassignedCards" ng-drag="true" ng-drag-data="card"
          ng-drag-success="onDragSuccess('unassignedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
@@ -92,7 +87,7 @@
     </div>
 </div>
 
-<div ng-drop="true" ng-drop-success="onDropComplete('inProgressCards',$data,$event)">
+<div ng-drop="true" ng-drop-success="onDropComplete('inProgressCards',$data,$event)" data-ng-click="showCardCreator('inProgressCards', $event)">
     <span class="title">In Progress</span>
     <div ng-repeat="card in inProgressCards" ng-drag="true" ng-drag-data="card"
          ng-drag-success="onDragSuccess('inProgressCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
@@ -100,7 +95,7 @@
     </div>
 </div>
 
-<div ng-drop="true" ng-drop-success="onDropComplete('completedCards',$data,$event)">
+<div ng-drop="true" ng-drop-success="onDropComplete('completedCards',$data,$event)" data-ng-click="showCardCreator('completedCards', $event)">
     <span class="title">Completed</span>
     <div ng-repeat="card in completedCards" ng-drag="true" ng-drag-data="card"
          ng-drag-success="onDragSuccess('completedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
