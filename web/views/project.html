@@ -1,4 +1,4 @@
-<!-- <md-button data-ng-click="showAdvanced($event)" class="md-primary md-raised">Create Project</md-button> -->
+<md-button data-ng-click="showStateCreator()" class="md-primary md-raised">Add State</md-button>
 <md-button ng-href="/logout" class="md-primary md-raised">Logout</md-button>
 
     <style>
@@ -45,7 +45,7 @@
         [ng-drop] {
             background: rgba(0, 255, 0, 0.5);
             text-align: center;
-            width: 600px;
+            width: 80%;
             height: 200px;
             padding-top: 90px;
             display: block;
@@ -72,33 +72,19 @@
     </style>
 </head>
 
-<ul class="draggable-objects">
+<!-- <ul class="draggable-objects">
     <li ng-if="true" ng-hide="true">
         <div ng-drag="true" ng-drag-data="{name:newCard.name}" data-allow-transform="true">{{newCard.name}}</div>
     </li>
-</ul>
+</ul> -->
 
 <hr/>
-<div ng-drop="true" ng-drop-success="onDropComplete('unassignedCards',$data,$event)" data-ng-click="showCardCreator('unassignedCards', $event)">
-    <span class="title">Open Items</span>
-    <div ng-repeat="card in unassignedCards" ng-drag="true" ng-drag-data="card"
-         ng-drag-success="onDragSuccess('unassignedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
-        {{card.name}}
-    </div>
-</div>
-
-<div ng-drop="true" ng-drop-success="onDropComplete('inProgressCards',$data,$event)" data-ng-click="showCardCreator('inProgressCards', $event)">
-    <span class="title">In Progress</span>
-    <div ng-repeat="card in inProgressCards" ng-drag="true" ng-drag-data="card"
-         ng-drag-success="onDragSuccess('inProgressCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
-        {{card.name}}
-    </div>
-</div>
-
-<div ng-drop="true" ng-drop-success="onDropComplete('completedCards',$data,$event)" data-ng-click="showCardCreator('completedCards', $event)">
-    <span class="title">Completed</span>
-    <div ng-repeat="card in completedCards" ng-drag="true" ng-drag-data="card"
-         ng-drag-success="onDragSuccess('completedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
-        {{card.name}}
-    </div>
+<div ng-repeat="state in project.states">
+    <md-card  ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)" data-ng-click="showCardCreator(state.name, $event)">
+        <span class="title">{{state.name}}</span>
+        <md-card ng-repeat="card in project.states[project.states.indexOf(state)].cards" ng-drag="true" ng-drag-data="card"
+             ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}">
+            {{card.name}}
+        </md-card>
+    </md-card>    
 </div>

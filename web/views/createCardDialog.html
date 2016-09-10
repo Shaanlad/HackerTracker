@@ -23,6 +23,34 @@
             </label>
             <input class="md-input" type="text" id="description" data-ng-model="newCard.description" required>
         </md-input-container>
+        <md-input-container>
+            <label for="startDate">
+                Start Date:
+            </label>
+            <md-datepicker id="startDate" data-ng-model="newCard.startDate">
+        </md-input-container>
+        <md-input-container>
+            <label for="endDate">
+                End Date:
+            </label>
+            <md-datepicker id="endDate" data-ng-model="newCard.endDate" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="assignees">
+                Assignee(s)
+            </label>
+            <md-select ng-model="newCard.ass" id="assignees" multiple>
+                <md-option data-ng-value="Ellery">
+                    Ellery
+                </md-option>                
+                <md-option data-ng-value="Kartikya">
+                    Kartikya
+                </md-option>                
+                <md-option data-ng-value="Shantanu">
+                    Shantanu
+                </md-option>
+            </md-select>
+        </md-input-container>
       </div>
     </md-dialog-content>
 
