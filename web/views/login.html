@@ -1,8 +1,48 @@
 <html>
 <head>
     <title>Hacker Tracker</title>
+    <link rel="stylesheet" href="/angular-material/angular-material.min.css">
+    <style>
+        h1.md-headline {
+            font-size: 36px!important;
+        }
+        md-card {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
 </head>
 <body>
-    Fill me in, for Harambe.
+    <md-card>
+        <md-toolbar class="layout-align-center-center md-primary">
+            <h1 class="md-headline">Hacker Tracker</h1>
+        </md-toolbar>
+        <md-content>
+            <form class="form-bordered form-horizontal" ng-submit="login();" novalidate>
+                <md-input-container class="md-primary">
+                    <label for="userName">
+                        User Name:
+                    </label>
+                    <input class="md-input" type="text" id="userName" data-ng-model="userName" required>
+                </md-input-container>
+                <md-input-container class="md-secondary">
+                    <label for="password">
+                        Password:
+                    </label>
+                    <input class="md-input" type="password" id="password" data-ng-model="password" required>
+                </md-input-container>
+                <input type="submit" id="submit" value="Submit" style="display: none;" />
+            </form>
+            <button class="md-raised md-primary md-button" data-ng-click="login();">Login</button>
+            <span>Not registered yet? Click here to <a href="/signup">Signup</a></span>
+        </md-content>
+    </md-card>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-material/angular-material.min.js"></script>
+    <script src="/angular-animate/angular-animate.min.js"></script>
+    <script src="/angular-aria/angular-aria.min.js"></script>
+    <script src="/app.js"></script>
+    <script src="/controllers/loginController.js"></script>
 </body> 
 </html>

@@ -1,32 +1,14 @@
-<html>
-  <head>
-    <title>Hacker Tracker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- 1. Load libraries -->
-    <!-- IE required polyfill -->
-    <script src="core-js/client/shim.min.js"></script>
-
-    <script src="zone.js/dist/zone.js"></script>
-    <script src="reflect-metadata/Reflect.js"></script>
-
-    <script src="rxjs/bundles/Rx.umd.js"></script>
-    <script src="@angular/core/bundles/core.umd.js"></script>
-    <script src="@angular/common/bundles/common.umd.js"></script>
-    <script src="@angular/compiler/bundles/compiler.umd.js"></script>
-    <script src="@angular/platform-browser/bundles/platform-browser.umd.js"></script>
-    <script src="@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"></script>
-
-    <!-- 2. Load our 'modules' -->
-    <script src='components/component.js'></script>
-    <script src='modules/module.js'></script>
-    <script src='app.js'></script>
-
-  </head>
-
-  <!-- 3. Display the application -->
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
-
+<html data-ng-app="HackerTracker" data-ng-controller="loginController">
+    <head>
+        <title>Hacker Tracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/angular-material/angular-material.min.css">
+    </head>
+    <body>
+    </body>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-material/angular-material.min.js"></script>
+    <script src="/angular-animate/angular-animate.min.js"></script>
+    <script src="/angular-aria/angular-aria.min.js"></script>
+    <script src="/app.js"></script>
 </html>

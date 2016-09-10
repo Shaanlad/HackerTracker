@@ -1,7 +1,7 @@
-(function(app) {
-  document.addEventListener('DOMContentLoaded', function() {
-    ng.platformBrowserDynamic
-      .platformBrowserDynamic()
-      .bootstrapModule(app.AppModule);
-  });
-})(window.app || (window.app = {}));
+var app = angular.module('HackerTracker', ['ngMaterial'])
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('pink')
+    .accentPalette('orange')
+    .secondaryPalette('blue');
+});
