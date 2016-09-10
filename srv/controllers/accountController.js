@@ -77,6 +77,7 @@ module.exports.controller = function(app, mongoose) {
 
     app.post('/signup', function(req, res) {
         delete req.session['user'];
+        delete req.session['user_id'];
         if (req.body.userName && req.body.password) {
             // Check for uniqueness of userName
             app.Users.IsUnique(req.body.userName, function(err, result){
@@ -84,7 +85,8 @@ module.exports.controller = function(app, mongoose) {
                     // If userName is not in use
                     if(result){
                         // Signup the user
-                        app.Users.Signup(req.body.userName, req.body.password);
+                        var user_id = app.Users.Signup(req.body.userName, req.body.password);
+                        req.session["user_id"] = user_id;
                         res.json({
                             success: true,
                             route: "/"

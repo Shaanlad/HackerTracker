@@ -4,9 +4,10 @@ var User = require('./userModel.js');
 function Users() {
     var userMap = new HashMap();
 
-    this.Add = function(userId, user) {
+    var Add = function(userId, user) {
         userMap.set(userId, user);
     };
+    this.Add = Add;
 
     this.Remove = function(userId) {        
         delete userMap[userId];
@@ -22,6 +23,7 @@ function Users() {
             } else {
                 console.log(result);
                 Add(result._id.toString(), result);
+                return result._id.toString();
             }
         })
     };
