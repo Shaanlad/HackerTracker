@@ -11,7 +11,6 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
             console.log($scope.project.states[i].name, stateName);
             if ($scope.project.states[i].name == stateName) {
                 return $scope.project.states[i].cards;
-                break;
             }
         }
     }
@@ -88,6 +87,15 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                 }
             }
             $mdDialog.cancel();            
+        };
+
+        $scope.loadAssignees = function () {
+            console.log($scope.project);
+            $http.get('/card/assignees/' + $scope.project._id)
+                .then(function(response) {
+                    $scope.users = response.data.users;
+                    $scope.groups = response.data.groups;
+                }, function(response) {});
         };
     };
 

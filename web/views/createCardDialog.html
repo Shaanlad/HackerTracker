@@ -39,16 +39,17 @@
             <label for="assignees">
                 Assignee(s)
             </label>
-            <md-select ng-model="newCard.ass" id="assignees" multiple>
-                <md-option data-ng-value="Ellery">
-                    Ellery
-                </md-option>                
-                <md-option data-ng-value="Kartikya">
-                    Kartikya
-                </md-option>                
-                <md-option data-ng-value="Shantanu">
-                    Shantanu
-                </md-option>
+            <md-select data-ng-model="newCard.ass" id="assignees" md-on-open="loadAssignees()" multiple>
+                <md-optgroup label="Users">
+                    <md-option data-ng-value="user" data-ng-repeat="user in users">
+                        {{user}}
+                    </md-option>
+                </md-optgroup>
+                <md-optgroup label="Groups">
+                    <md-option data-ng-value="group" data-ng-repeat="group in groups">
+                        {{group}}
+                    </md-option>
+                </md-optgroup>
             </md-select>
         </md-input-container>
       </div>

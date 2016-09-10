@@ -1,4 +1,5 @@
 var path = require('path');
+var Project = require('../models/projectModel.js');
 
 module.exports.controller = function (app, mongoose) {
     app.get('/card/issueTypes/:project_id', function(req, res) {
