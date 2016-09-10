@@ -5,7 +5,12 @@
         <link rel="stylesheet" href="/angular-material/angular-material.min.css">
     </head>
     <body data-ng-app="HackerTracker" data-ng-controller="homeController">
-        <md-button data-ng-click="create()">Click Meee!!!!</md-button>
+        <md-button data-ng-click="showAdvanced($event)" class="md-primary md-raised">Create Project</md-button>
+        <ul>
+            <li data-ng-repeat="project in projects">
+                <a href="/project/{{project._id}}">{{project.name}}</a>
+            </li>
+        </ul>
     </body>
     <script src="/angular/angular.js"></script>
     <script src="/angular-material/angular-material.min.js"></script>

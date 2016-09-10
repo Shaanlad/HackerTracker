@@ -5,18 +5,20 @@ var Project = require('../models/projectModel.js');
 
 module.exports.controller = function (app) {
     //Get all projects for specific user
-    app.get('/project/:user_id', function(req, res) {
+    app.get('/project', function(req, res) {
         // If user isn't already logged in
         if (!req.session['user_id']) {
             // Take him to login page
-            res.sendFile(path.join(__dirname, '../../web/views', 'login.html'));
+            res.redirect('/login');
         }
         else{
             MongoClient.connect(config.mongodbUrl, function(err, db) {
                 db.collection("ProjectCollection").find({
-                    userName: req.body.userName,
-                    password: req.body.password
+                    users: req.session['user_id']
+                }).sort({ name: -1 }).toArray(function(err, result) {
+                    res.json(result);
                 });
+                db.close();
             });
         };
     });
