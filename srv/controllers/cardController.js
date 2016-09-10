@@ -5,6 +5,7 @@ module.exports.controller = function (app, mongoose) {
     app.get('/card/issueTypes/:project_id', function(req, res) {
         //FIXME - Un-hardcode
         res.json(['Task', 'Bug', 'Feature', 'Service']);
+        return;
         // If user isn't already logged in
         if (!req.session['user_id']) {
             // Take him to login page
@@ -30,6 +31,7 @@ module.exports.controller = function (app, mongoose) {
             users: ['Ellery', 'Kartikya', 'Shantanu'],
             groups: ['Dev', 'QA', 'UAT']
         });
+        return;
         // If user isn't already logged in
         if (!req.session['user_id']) {
             // Take him to login page
