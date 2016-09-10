@@ -1,15 +1,15 @@
-angular.module('HackerTracker').controller('loginController', ['$http', '$scope', function($http, $scope) {
-    $scope.login = function() {
-        $http.post('/login', {
-            userName: $scope.userName,
-            password: $scope.password
+angular.module('HackerTracker').controller('homeController', ['$http', '$scope', function($http, $scope) {
+    $scope.create = function() {
+        $http.post("/project", {
+            name: 'name',
+            description: 'description'
         }).then(function(response) {
             if (response.data.success == true) {
                 window.location.href = response.data.route;
             } else {
                 alert(response.data.message);
             }
-        }, function(response) {
+        }, function (response) {
             alert(response);
         });
     };

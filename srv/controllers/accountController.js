@@ -10,8 +10,8 @@ module.exports.controller = function(app) {
             res.sendFile(path.join(__dirname, '../../web/views', 'login.html'));
         }
         else{
-            // Take him to chatScreen
-            res.redirect('/chatScreen');
+            // Take him to home
+            res.redirect('/');
         }
     });
 
@@ -76,7 +76,7 @@ module.exports.controller = function(app) {
     });
 
     app.get('/signup', function(req, res) {
-        res.sendfile('views/signup.html');
+        res.sendFile(path.join(__dirname, '../../web/views', 'signup.html'));
     });
 
     app.post('/signup', function(req, res) {

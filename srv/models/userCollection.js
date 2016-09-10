@@ -1,6 +1,7 @@
 var HashMap = require('hashmap');
 var MongoClient = require('mongodb').MongoClient;
 var User = require('./userModel.js');
+var config = require('config');
 
 function Users() {
     var userMap = new HashMap();
@@ -19,7 +20,7 @@ function Users() {
                     console.log(err);
                 } else {
                     console.log(result);
-                    addUser(result.insertedIds[0].toString(), userName);
+                    this.Add(result.insertedIds[0].toString(), userName);
                 }
                 db.close();
             });

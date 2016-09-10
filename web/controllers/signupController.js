@@ -1,6 +1,6 @@
-angular.module('HackerTracker').controller('loginController', ['$http', '$scope', function($http, $scope) {
-    $scope.login = function() {
-        $http.post('/login', {
+angular.module('HackerTracker').controller('signupController', ['$http', '$scope', function($http, $scope) {
+    $scope.signup = function() {
+        $http.post('/signup', {
             userName: $scope.userName,
             password: $scope.password
         }).then(function(response) {
@@ -12,5 +12,5 @@ angular.module('HackerTracker').controller('loginController', ['$http', '$scope'
         }, function(response) {
             alert(response);
         });
-    };
+    }
 }]);

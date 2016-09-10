@@ -1,0 +1,52 @@
+<!doctype html>
+<html ng-app="HackerTracker" ng-controller="signupController">
+
+<head>
+    <title>Private Web Chat Signup</title>
+    <link rel="stylesheet" href="/angular-material/angular-material.min.css">
+    <style>
+        h1.md-headline {
+            font-size: 36px!important;
+        }
+        md-card {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <md-card>
+        <md-toolbar class="layout-align-center-center">
+            <h1 class="md-headline">Private Web Chat</h1>
+        </md-toolbar>
+        <md-content>
+            <form class="form-bordered form-horizontal" ng-submit="signup());" novalidate>
+                <md-input-container>
+                    <label for="userName">
+                        User Name:
+                    </label>
+                    <input class="md-input" type="text" id="userName" data-ng-model="userName" required>
+                </md-input-container>
+                <md-input-container>
+                    <label for="password">
+                        Password:
+                    </label>
+                    <input class="md-input" type="password" id="password" data-ng-model="password" required>
+                </md-input-container>
+                <input type="submit" id="submit" value="Submit" style="display: none;" />
+            </form>
+            <button class="md-raised md-primary md-button" data-ng-click="signup();">Signup</button>
+            <span>Already registered ? Click here to <a href="/login">Login</a></span>
+        </md-content>
+    </md-card>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-material/angular-material.min.js"></script>
+    <script src="/angular-animate/angular-animate.min.js"></script>
+    <script src="/angular-aria/angular-aria.min.js"></script>
+    <script src="/app.js"></script>
+    <script src="/controllers/signupController.js"></script>
+</body>
+
+</html>

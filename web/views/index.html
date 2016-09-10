@@ -1,14 +1,16 @@
-<html data-ng-app="HackerTracker" data-ng-controller="loginController">
+<html>
     <head>
         <title>Hacker Tracker</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/angular-material/angular-material.min.css">
     </head>
-    <body>
+    <body data-ng-app="HackerTracker" data-ng-controller="homeController">
+        <md-button data-ng-click="create()">Click Meee!!!!</md-button>
     </body>
     <script src="/angular/angular.js"></script>
     <script src="/angular-material/angular-material.min.js"></script>
     <script src="/angular-animate/angular-animate.min.js"></script>
     <script src="/angular-aria/angular-aria.min.js"></script>
     <script src="/app.js"></script>
+    <script src="/controllers/homeController.js"></script>
 </html>
