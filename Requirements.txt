@@ -23,6 +23,7 @@ Each USER:
 Each GROUP
 	must:
 		- have a name
+		- have users
 
 Each COMMENT
 	must:
