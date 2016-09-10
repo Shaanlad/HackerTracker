@@ -4,18 +4,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/angular-material/angular-material.min.css">
     </head>
-    <body data-ng-app="HackerTracker" data-ng-controller="homeController">
-        <md-button data-ng-click="showAdvanced($event)" class="md-primary md-raised">Create Project</md-button>
-        <ul>
-            <li data-ng-repeat="project in projects">
-                <a href="/project/{{project._id}}">{{project.name}}</a>
-            </li>
-        </ul>
+    <body data-ng-app="HackerTracker" >
+        <div class="container" ng-view></div>
     </body>
     <script src="/angular/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="/angular-material/angular-material.min.js"></script>
     <script src="/angular-animate/angular-animate.min.js"></script>
     <script src="/angular-aria/angular-aria.min.js"></script>
+    <script src="/js/ngDraggable.js"></script>
     <script src="/app.js"></script>
     <script src="/controllers/homeController.js"></script>
+    <script src="/controllers/projectController.js"></script>
 </html>

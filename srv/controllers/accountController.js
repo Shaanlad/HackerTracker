@@ -114,6 +114,7 @@ module.exports.controller = function(app, mongoose) {
     });
 
     app.get('/logout', function(req, res) {
+        app.Users.Remove(req.session["user_id"]);
         req.session.destroy();
         // Take him to login
         res.redirect('/login');

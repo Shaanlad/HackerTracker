@@ -1,0 +1,104 @@
+<!-- <md-button data-ng-click="showAdvanced($event)" class="md-primary md-raised">Create Project</md-button> -->
+<md-button ng-href="/logout" class="md-primary md-raised">Logout</md-button>
+
+    <style>
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        [ng-drag] {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        [ng-drag] {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding-top: 40px;
+            display: inline-block;
+            margin: 0 10px;
+            cursor: move;
+        }
+        ul.draggable-objects:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+        .draggable-objects li {
+            float: left;
+            display: block;
+            width: 120px;
+            height: 100px;
+        }
+        [ng-drag].drag-over {
+            border: solid 1px red;
+        }
+        [ng-drag].dragging {
+            opacity: 0.5;
+        }
+        [ng-drop] {
+            background: rgba(0, 255, 0, 0.5);
+            text-align: center;
+            width: 600px;
+            height: 200px;
+            padding-top: 90px;
+            display: block;
+            margin: 20px auto;
+            position: relative;
+        }
+        [ng-drop].drag-enter {
+            border: solid 5px red;
+        }
+        [ng-drop] span.title {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 20px;
+            margin-left: -100px;
+            margin-top: -10px;
+        }
+        [ng-drop] div {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<ul class="draggable-objects">
+    <li>
+        <div ng-drag="true" ng-drag-data="{name:'Sample Card'}" data-allow-transform="true">Card</div>
+    </li>
+</ul>
+
+<hr/>
+<div ng-drop="true" ng-drop-success="onDropComplete('unassignedCards',$data,$event)">
+    <span class="title">Open Items</span>
+    <div ng-repeat="card in unassignedCards" ng-drag="true" ng-drag-data="card"
+         ng-drag-success="onDragSuccess('unassignedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
+        {{card.name}}
+    </div>
+</div>
+
+<div ng-drop="true" ng-drop-success="onDropComplete('inProgressCards',$data,$event)">
+    <span class="title">In Progress</span>
+    <div ng-repeat="card in inProgressCards" ng-drag="true" ng-drag-data="card"
+         ng-drag-success="onDragSuccess('inProgressCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
+        {{card.name}}
+    </div>
+</div>
+
+<div ng-drop="true" ng-drop-success="onDropComplete('completedCards',$data,$event)">
+    <span class="title">Completed</span>
+    <div ng-repeat="card in completedCards" ng-drag="true" ng-drag-data="card"
+         ng-drag-success="onDragSuccess('completedCards',$data,$event)" ng-center-anchor="{{centerAnchor}}">
+        {{card.name}}
+    </div>
+</div>

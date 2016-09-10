@@ -8,6 +8,10 @@ function Users() {
         userMap.set(userId, user);
     };
 
+    this.Remove = function(userId) {        
+        delete userMap[userId];
+    };
+
     this.Signup = function(userName, password) {
         var user = new User();
         user.userName = userName;

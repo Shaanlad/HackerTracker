@@ -20,6 +20,10 @@ angular.module('HackerTracker').controller('homeController', ['$http', '$scope',
     });
   };
 
+  $scope.logout =function () {
+    $http.get('logout/');
+  }
+
   function DialogController($http, $scope, $mdDialog) {
     $scope.name = '';
     $scope.description = '';
