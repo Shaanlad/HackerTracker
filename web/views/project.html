@@ -1,5 +1,10 @@
-<md-button data-ng-click="showStateCreator()" class="md-primary md-raised">Add State</md-button>
-<md-button ng-href="/logout" class="md-primary md-raised">Logout</md-button>
+<md-toolbar>
+    <h2>
+        <span>{{project.name}}</span>
+    </h2>
+    <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised">Add State</md-button>
+    <md-button data-ng-href="/logout" class="md-secondary md-raised">Logout</md-button>
+</md-toolbar>
     <style>
         * {
             -moz-box-sizing: border-box;
