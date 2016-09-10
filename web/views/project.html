@@ -72,9 +72,14 @@
     </style>
 </head>
 
+<md-button data-ng-click="showCardCreator($event)" class="md-primary md-raised">New Card</md-button>
+
 <ul class="draggable-objects">
-    <li>
+    <li ng-if="true">
         <div ng-drag="true" ng-drag-data="{name:'Sample Card'}" data-allow-transform="true">Card</div>
+    </li>
+    <li ng-if="true">
+        <div ng-drag="true" ng-drag-data="{name:card.name}" data-allow-transform="true">{{card}}</div>
     </li>
 </ul>
 
