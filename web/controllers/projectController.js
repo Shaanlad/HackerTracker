@@ -1,4 +1,5 @@
-angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', function($http, $scope, $routeParams, $mdDialog) {
+angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog',
+    function($http, $scope, $routeParams, $mdDialog) {
 
     $scope.project = {};
     $scope.newCard = {
@@ -46,8 +47,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         $scope.newCard.container = container;
         $mdDialog.show({
             controller: DialogController,
-            scope: $scope.$new(),
-            templateUrl: '/views/createCardDialog.html',
+            //scope: $scope.$new(),
+            templateUrl: '/views/editCardDialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose:true,
@@ -61,8 +62,15 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     };
 
     function DialogController($scope, $mdDialog) {
+        $scope.newCard = {};
         $scope.newCard.name = '';
         $scope.newCard.description = '';
+        $scope.card = {};
+        $scope.card.assignees = {};
+        $scope.card.ass = [];
+        $scope.Ellery = 'Ellery';
+        $scope.Kartikya = 'Kartikya';
+        $scope.Shantanu = 'Shantanu';
 
         $scope.cancel = function() {
             $scope.newCard.name = '';

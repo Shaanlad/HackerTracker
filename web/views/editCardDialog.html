@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{card.name}}</h2>
+        <h2>Edit Ticket</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
         </md-button>
@@ -33,6 +33,22 @@
                 End Date:
             </label>
             <md-datepicker id="endDate" data-ng-model="card.endDate" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="assignees">
+                Assignee(s)
+            </label>
+            <md-select ng-model="card.ass" id="assignees" multiple>
+                <md-option data-ng-value="Ellery">
+                    Ellery
+                </md-option>                
+                <md-option data-ng-value="Kartikya">
+                    Kartikya
+                </md-option>                
+                <md-option data-ng-value="Shantanu">
+                    Shantanu
+                </md-option>
+            </md-select>
         </md-input-container>
       </div>
     </md-dialog-content>
