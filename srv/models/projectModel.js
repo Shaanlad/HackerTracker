@@ -5,8 +5,10 @@ var ProjectSchema = new Schema({
 	name: String,
 	description: String,
 	users: [],
+	groups: [],
 	cards: [],
-	states: []
+	states: [],
+	issueTypes: []
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
