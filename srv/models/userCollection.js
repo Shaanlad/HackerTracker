@@ -21,7 +21,7 @@ function Users() {
                 console.log(err);
             } else {
                 console.log(result);
-                this.Add(result._id.toString(), result);
+                Add(result._id.toString(), result);
             }
         })
     };

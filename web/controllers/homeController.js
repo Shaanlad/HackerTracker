@@ -39,8 +39,9 @@ angular.module('HackerTracker').controller('homeController', ['$http', '$scope',
             name: $scope.name,
             description: $scope.description
         }).then(function(response) {
-            if (response.insertedIds != null) {
-                window.location.reload();
+            if (response.data._id != null) {
+                $mdDialog.cancel();
+                window.location.href = '/#/project/' + response.data._id;
             } else {
                 alert(response.data.message);
             }

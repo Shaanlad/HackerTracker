@@ -52,6 +52,18 @@
                 </md-optgroup>
             </md-select>
         </md-input-container>
+        <md-input-container>
+            <label for="estimatedTime">
+                Estimated Time (hr):
+            </label>
+            <input class="md-input" type="number" id="estimatedTime" data-ng-model="newCard.estimatedTime" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="actualTime">
+                Actual Time (hr):
+            </label>
+            <input class="md-input" type="number" id="actualTime" data-ng-model="newCard.actualTime">
+        </md-input-container>
       </div>
     </md-dialog-content>
 
