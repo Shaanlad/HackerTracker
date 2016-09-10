@@ -1,0 +1,39 @@
+<md-dialog aria-label="Create New State">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create New State</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container>
+            <label for="name">
+                Name:
+            </label>
+            <input class="md-input" type="text" id="name" data-ng-model="newState.name" required>
+        </md-input-container>
+        <md-input-container>
+            <label for="description">
+                Description:
+            </label>
+            <input class="md-input" type="text" id="description" data-ng-model="newState.description" required>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="create()" class="md-primary">
+       Create
+      </md-button>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
