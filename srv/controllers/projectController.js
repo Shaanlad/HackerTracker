@@ -96,6 +96,7 @@ module.exports.controller = function (app, mongoose) {
                 req.params.projectId,
                 function(err, project) {
                     req.body.card.creator = req.session['user_id'];
+                    req.body.card._id = mongoose.Types.ObjectId();
                     project.update(
                         {$push: {"cards": req.body.card}},
                         {safe: true, upsert: true, new : true},
@@ -111,6 +112,34 @@ module.exports.controller = function (app, mongoose) {
         }
     });
 
+
+    //Edit card to the project having specified projectId
+    app.put('/project/:projectId/card', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.update(
+                {
+                    '_id': req.params.projectId,
+                    'cards._id': mongoose.Types.ObjectId(req.body.card._id)
+                }, 
+                { $set: { 
+                        'cards.$.state': req.body.card.state
+                    }
+                },
+                function(err) {
+                    if (err)
+                        res.json(err);
+                    else
+                        res.json({success: true, message: "Changes made to the card"});
+                    return;
+                }
+            );
+        }
+    });
     //Create project
     app.post('/project', function(req, res) {
         // If user isn't already logged in

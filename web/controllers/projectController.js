@@ -33,10 +33,27 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         $scope.centerAnchor = !$scope.centerAnchor
     }
 
-    $scope.onDropComplete = function (stateName, data, evt) {
-        var index = $scope.cardsByStates[stateName].indexOf(data);
+    $scope.onDropComplete = function (stateName, card, evt) {
+        card.state = stateName;
+        var index = $scope.cardsByStates[stateName].indexOf(card);
         if (index == -1)
-            $scope.cardsByStates[stateName].push(data);
+            $scope.cardsByStates[stateName].push(card);
+
+        $http.put("/project/" + $routeParams.id + "/card", {
+            card: card
+        }).then(function(response) {
+            if (response.data.success) {
+                $mdToast.show(
+                  $mdToast.simple()
+                    .textContent(response.data.message)
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+            } else {
+                alert(response.data.message);
+            }
+        });
+
     }
     $scope.onDragSuccess = function (stateName, data, evt) {
         var index = $scope.cardsByStates[stateName].indexOf(data);

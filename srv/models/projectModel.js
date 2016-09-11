@@ -6,7 +6,15 @@ var ProjectSchema = new Schema({
 	description: String,
 	users: [],
 	groups: [],
-	cards: [],
+	cards: [
+		{
+			_id: Schema.ObjectId,
+			state: String,
+			name: String,
+			description: String,
+			creator: String
+		}
+	],
 	states: [],
 	issueTypes: []
 });
