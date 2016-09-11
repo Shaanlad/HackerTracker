@@ -91,7 +91,7 @@
     <md-toolbar >
         <span class="title">{{state.name}}</span>
     </md-toolbar>   
-    <md-card ng-repeat="card in project.states[project.states.indexOf(state)].cards" ng-drag="true" ng-drag-data="card"
+    <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
             ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}">
         {{card.name}}
     </md-card> 

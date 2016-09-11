@@ -83,6 +83,32 @@ module.exports.controller = function (app, mongoose) {
         }
     });
 
+    //Add card to the project having specified projectId
+    app.post('/project/:projectId/card', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    project.update(
+                        {$push: {"cards": req.body.card}},
+                        {safe: true, upsert: true, new : true},
+                        function(err) {
+                            if (err)
+                                res.json(err);
+                            else
+                                res.json({success: true, message: "Card added to the project"});
+                            return;
+                        }
+                    );
+                });
+        }
+    });
+
     //Create project
     app.post('/project', function(req, res) {
         // If user isn't already logged in
