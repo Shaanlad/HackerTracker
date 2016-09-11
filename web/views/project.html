@@ -1,9 +1,11 @@
-<md-toolbar>
-    <h2>
+<md-toolbar style="position: fixed; height: 100px;">
+    <h2 style="display: flex;">
         <span>{{project.name}}</span>
+        <div style="position: inline-block; text-align: right; vertical-align: top; margin-left: 50%;">
+            <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised" style="width: 100px;">Add State</md-button>
+            <md-button data-ng-href="/logout" class="md-secondary md-raised" style="width: 100px;">Logout</md-button>
+        </div>
     </h2>
-    <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised">Add State</md-button>
-    <md-button data-ng-href="/logout" class="md-secondary md-raised">Logout</md-button>
 </md-toolbar>
     <style>
         * {
@@ -87,21 +89,21 @@
 </ul> -->
 
 <hr/>
-<div ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)" data-ng-click="showCardCreator(state.name, $event)">
-    <md-toolbar >
-        <span class="title">{{state.name}}</span>
+<div style="position: inline-block; margin-top: 150px;">
+<div ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)">
+    <md-toolbar style="display: inline-block;">
+        <span class="title" style="text-align: center;">{{state.name}}</span>
+        <i class="fa fa-plus" aria-hidden="true" style="text-align: right; vertical-align: top;" data-ng-click="showCardCreator(state.name, $event)"></i>
     </md-toolbar>   
     <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
-            ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}">
+            ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
+            data-ng-click="showCardEditor(state.name, $event)">
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{card.name}}</span>
                 <span class="md-subhead">{{card.description}}</span>
             </md-card-title-text>
         </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button>Comment</md-button>
-            <md-button>Assign</md-button>
-        </md-card-actions>
     </md-card>
+</div>
 </div>

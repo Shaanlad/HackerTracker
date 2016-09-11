@@ -18,7 +18,7 @@ mongoose.connect(config.mongodbUrl);
 var appSession = session({
     secret: 'cookiesalt',
     store: new MongoStore({
-        url: "config.mongodbUrl",
+        url: config.mongodbUrl,
         autoRemove: "native"
     }),
     resave: false,

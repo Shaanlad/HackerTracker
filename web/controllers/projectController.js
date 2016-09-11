@@ -84,10 +84,67 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         });
     };
 
+    $scope.showCardEditor = function(stateName, ev) {
+        $scope.newCard.state = stateName;
+        $mdDialog.show({
+            controller: CardEditorController,
+            scope: $scope.$new(),
+            templateUrl: '/views/editCardDialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function() {
+            // $scope.create();
+        }, function() {
+            $mdDialog.cancel();
+        });
+    };
+
     function CardCreatorController($scope, $mdDialog) {
         $scope.newCard.name = '';
         $scope.newCard.description = '';
 
+        $scope.cancel = function() {
+            $scope.newCard.name = '';
+            $scope.newCard.description = '';
+            $mdDialog.cancel();
+        };
+
+        $scope.create = function() {
+            $http.post("/project/" + $routeParams.id + "/card", {
+                card: $scope.newCard
+            }).then(function(response) {
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.project.cards.push(angular.copy($scope.newCard)); // When we get to EDIT funtionality, we'll have to get actual entry that was saved to database as we'll need the ID of it
+                    $scope.cardsByStates[$scope.newCard.state].push(angular.copy($scope.newCard));
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
+                }
+            }, function (response) {
+                alert(response);
+            });
+        };
+
+        $scope.loadAssignees = function () {
+            console.log($scope.project);
+            $http.get('/card/assignees/' + $scope.project._id)
+                .then(function(response) {
+                    $scope.users = response.data.users;
+                    $scope.groups = response.data.groups;
+                }, function(response) {});
+        };
+    };
+
+    function CardEditorController($scope, $mdDialog) {
         $scope.cancel = function() {
             $scope.newCard.name = '';
             $scope.newCard.description = '';
