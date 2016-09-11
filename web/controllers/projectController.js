@@ -1,4 +1,4 @@
-angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', function($http, $scope, $routeParams, $mdDialog) {
+angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', '$mdToast', function($http, $scope, $routeParams, $mdDialog, $mdToast) {
 
     $scope.project = {};
     $scope.newCard = {};
@@ -6,19 +6,26 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         cards: []
     };
 
-    $scope.GetCards = function (stateName) {
-        for (var i = 0; i < $scope.project.states.length; i++) {
-            console.log($scope.project.states[i].name, stateName);
-            if ($scope.project.states[i].name == stateName) {
-                return $scope.project.states[i].cards;
+    $scope.cardsByStates = {};
+
+    $scope.initCardsByStates = function () {
+        for (var i = 0; i < $scope.project.states.length; i++) {            
+            var cards = [];
+            for (var j = 0; j < $scope.project.cards.length; j++) {
+                if ($scope.project.cards[j].state == $scope.project.states[i].name) {
+                    cards.push($scope.project.cards[j]);
+                }
             }
+            $scope.cardsByStates[$scope.project.states[i].name] = cards;
         }
+        console.log($scope.cardsByStates);
     }
     
     $http.get('project/' + $routeParams.id).then(function(response) {
         console.log(response.data);
         $scope.project = response.data;
-    }, function(response) {});
+        $scope.initCardsByStates();
+    });
 
     $scope.centerAnchor = true;
     
@@ -26,22 +33,32 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         $scope.centerAnchor = !$scope.centerAnchor
     }
 
-    var onDraggableEvent = function (evt, data) {
-        console.log("128", "onDraggableEvent", evt, data);
-    }
-
-    $scope.$on('draggable:start', onDraggableEvent);
-    $scope.$on('draggable:end', onDraggableEvent);
-
-    $scope.onDropComplete = function (stateName, data, evt) {
-        var index = $scope.GetCards(stateName).indexOf(data);
+    $scope.onDropComplete = function (stateName, card, evt) {
+        card.state = stateName;
+        var index = $scope.cardsByStates[stateName].indexOf(card);
         if (index == -1)
-            $scope.GetCards(stateName).push(data);
+            $scope.cardsByStates[stateName].push(card);
+
+        $http.put("/project/" + $routeParams.id + "/card", {
+            card: card
+        }).then(function(response) {
+            if (response.data.success) {
+                $mdToast.show(
+                  $mdToast.simple()
+                    .textContent(response.data.message)
+                    .position('top right')
+                    .hideDelay(3000)
+                );
+            } else {
+                alert(response.data.message);
+            }
+        });
+
     }
     $scope.onDragSuccess = function (stateName, data, evt) {
-        var index = $scope.GetCards(stateName).indexOf(data);
+        var index = $scope.cardsByStates[stateName].indexOf(data);
         if (index > -1) {
-            $scope.GetCards(stateName).splice(index, 1);
+            $scope.cardsByStates[stateName].splice(index, 1);
         }
     }
 
@@ -50,7 +67,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     }
 
     $scope.showCardCreator = function(stateName, ev) {
-        $scope.newCard.stateName = stateName;
+        $scope.newCard.state = stateName;
         $mdDialog.show({
             controller: CardCreatorController,
             scope: $scope.$new(),
@@ -78,15 +95,25 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
 
         $scope.create = function() {
-            console.log($scope.newCard.stateName);
-            console.log($scope.project.states);
-            for (var i = 0; i < $scope.project.states.length; i++) {
-                if ($scope.project.states[i].name == $scope.newCard.stateName) {
-                    $scope.project.states[i].cards.push(angular.copy($scope.newCard));
-                    break;
+            $http.post("/project/" + $routeParams.id + "/card", {
+                card: $scope.newCard
+            }).then(function(response) {
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.project.cards.push(angular.copy($scope.newCard)); // When we get to EDIT funtionality, we'll have to get actual entry that was saved to database as we'll need the ID of it
+                    $scope.cardsByStates[$scope.newCard.state].push(angular.copy($scope.newCard));
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
                 }
-            }
-            $mdDialog.cancel();            
+            }, function (response) {
+                alert(response);
+            });
         };
 
         $scope.loadAssignees = function () {
@@ -126,8 +153,25 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
 
         $scope.create = function() {
-            $scope.project.states.push(angular.copy($scope.newState));
-            $mdDialog.cancel();            
+            $http.post("/project/" + $routeParams.id + "/state", {
+                state: $scope.newState
+            }).then(function(response) {
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.project.states.push(angular.copy($scope.newState));
+                    $scope.initCardsByStates();
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
+                }
+            }, function (response) {
+                alert(response);
+            });
         };
     };
 
