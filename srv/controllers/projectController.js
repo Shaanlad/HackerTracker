@@ -68,6 +68,7 @@ module.exports.controller = function (app, mongoose) {
             Project.findById(
                 req.params.projectId,
                 function(err, project) {
+                    req.body.state.creator = req.session['user_id'];
                     project.update(
                         {$push: {"states": req.body.state}},
                         {safe: true, upsert: true, new : true},
@@ -94,6 +95,7 @@ module.exports.controller = function (app, mongoose) {
             Project.findById(
                 req.params.projectId,
                 function(err, project) {
+                    req.body.card.creator = req.session['user_id'];
                     project.update(
                         {$push: {"cards": req.body.card}},
                         {safe: true, upsert: true, new : true},
