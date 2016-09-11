@@ -34,14 +34,14 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     }
 
     $scope.onDropComplete = function (stateName, data, evt) {
-        var index = $scope.GetCards(stateName).indexOf(data);
+        var index = $scope.cardsByStates[stateName].indexOf(data);
         if (index == -1)
-            $scope.GetCards(stateName).push(data);
+            $scope.cardsByStates[stateName].push(data);
     }
     $scope.onDragSuccess = function (stateName, data, evt) {
-        var index = $scope.GetCards(stateName).indexOf(data);
+        var index = $scope.cardsByStates[stateName].indexOf(data);
         if (index > -1) {
-            $scope.GetCards(stateName).splice(index, 1);
+            $scope.cardsByStates[stateName].splice(index, 1);
         }
     }
 
@@ -147,6 +147,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                         .hideDelay(3000)
                     );
                     $scope.project.states.push(angular.copy($scope.newState));
+                    $scope.initCardsByStates();
                     $mdDialog.cancel();
                 } else {
                     alert(response.data.message);

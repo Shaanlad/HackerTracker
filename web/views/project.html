@@ -11,7 +11,7 @@
             -webkit-box-sizing: border-box;
             box-sizing: border-box;
         }
-        [ng-drag] {
+        /*[ng-drag] {
             -moz-user-select: -moz-none;
             -khtml-user-select: none;
             -webkit-user-select: none;
@@ -30,7 +30,7 @@
             cursor: move;
             margin-top: 10px;
             margin-bottom: 10px;
-        }
+        }*/
         ul.draggable-objects:after {
             display: block;
             content: "";
@@ -93,6 +93,15 @@
     </md-toolbar>   
     <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
             ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}">
-        {{card.name}}
-    </md-card> 
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{card.name}}</span>
+                <span class="md-subhead">{{card.description}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button>Comment</md-button>
+            <md-button>Assign</md-button>
+        </md-card-actions>
+    </md-card>
 </div>
