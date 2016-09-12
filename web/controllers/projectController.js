@@ -150,6 +150,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
 
     function CardEditorController($scope, $mdDialog) {
         $http.get('/card/' + $scope.card_id).then(function(response){
+            response.data[0].startDate = new Date(response.data[0].startDate);
+            response.data[0].endDate = new Date(response.data[0].endDate);
             $scope.card = response.data[0];
             console.log($scope.card);
         });
@@ -168,6 +170,23 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                     $scope.groups = response.data.groups;
                 }, function(response) {});
         };
+
+        $scope.editCard = function() {
+            $http.put('/card/' + $scope.card._id, {
+                card: $scope.card,
+                project_id: $routeParams.id
+            }).then(function(response) {
+                for (var key in $scope.cardsByStates) {
+                    for (var key2 in $scope.cardsByStates[key]) {
+                        if ($scope.cardsByStates[key][key2]._id == $scope.card._id) {
+                            $scope.cardsByStates[key].splice(key2, 1);
+                            $scope.cardsByStates[key].push($scope.card);
+                            return;
+                        }
+                    }
+                }
+            });
+        }
     };
 
     $scope.showStateCreator = function() {

@@ -84,4 +84,20 @@ module.exports.controller = function (app, mongoose) {
                 res.json(card);
         });
     });
+
+    app.put('/card/:card_id', function(req, res){
+        Project.findById(
+            req.body.project_id,
+            function(err, project) {
+                for (var key in project.cards) {
+                    if (project.cards[key]._id == req.body.card._id) {
+                        project.cards.splice(key, 1);
+                        break;
+                    }
+                }
+                project.save();
+                project.cards.push(req.body.card);
+                project.save();
+        });
+    });
 };
