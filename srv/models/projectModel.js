@@ -12,7 +12,19 @@ var ProjectSchema = new Schema({
 			state: String,
 			name: String,
 			description: String,
-			creator: String
+			creator: String,
+			assignedUsers: [{
+				_id: Schema.ObjectId,
+				name: String
+			}],
+			assignedGroups: [{
+				_id: Schema.ObjectId,
+				name: String
+			}],
+			startDate: Date,
+			endDate: Date,
+			estimatedTime: Number,
+			actualTime: Number
 		}
 	],
 	states: [],

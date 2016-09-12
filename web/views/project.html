@@ -90,20 +90,20 @@
 
 <hr/>
 <div style="position: inline-block; margin-top: 150px;">
-<div ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)">
-    <md-toolbar style="display: inline-block;">
-        <span class="title" style="text-align: center;">{{state.name}}</span>
-        <i class="fa fa-plus" aria-hidden="true" style="text-align: right; vertical-align: top;" data-ng-click="showCardCreator(state.name, $event)"></i>
-    </md-toolbar>   
-    <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
-            ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
-            data-ng-click="showCardEditor(state.name, $event)">
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">{{card.name}}</span>
-                <span class="md-subhead">{{card.description}}</span>
-            </md-card-title-text>
-        </md-card-title>
-    </md-card>
-</div>
+    <div ng-repeat="state in project.states" ng-drop="true">
+        <md-toolbar style="display: inline-block;">
+            <span class="title" style="text-align: center;">{{state.name}}</span>
+            <i class="fa fa-plus" aria-hidden="true" style="text-align: right; vertical-align: top;" data-ng-click="showCardCreator(state.name, $event)"></i>
+        </md-toolbar>   
+        <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
+                ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
+                data-ng-click="showCardEditor(state.name, $event, card._id)" ng-drop-success="onDropComplete(state.name,card,$event)">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{card.name}}</span>
+                    <span class="md-subhead">{{card.description}}</span>
+                </md-card-title-text>
+            </md-card-title>
+        </md-card>
+    </div>
 </div>

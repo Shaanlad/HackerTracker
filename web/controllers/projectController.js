@@ -34,7 +34,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     }
 
     $scope.onDropComplete = function (stateName, card, evt) {
-        card.state = stateName;
+        if (card)
+            card.state = stateName;
         var index = $scope.cardsByStates[stateName].indexOf(card);
         if (index == -1)
             $scope.cardsByStates[stateName].push(card);
@@ -67,7 +68,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     }
 
     $scope.showCardCreator = function(stateName, ev) {
-        $scope.newCard.state = stateName;
+        if ($scope.newCard)
+            $scope.newCard.state = stateName;
         $mdDialog.show({
             controller: CardCreatorController,
             scope: $scope.$new(),
@@ -84,8 +86,10 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         });
     };
 
-    $scope.showCardEditor = function(stateName, ev) {
-        $scope.newCard.state = stateName;
+    $scope.showCardEditor = function(stateName, ev, card_id) {
+        if ($scope.newCard)
+            $scope.newCard.state = stateName;
+        $scope.card_id = card_id;
         $mdDialog.show({
             controller: CardEditorController,
             scope: $scope.$new(),
@@ -145,32 +149,15 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     };
 
     function CardEditorController($scope, $mdDialog) {
+        $http.get('/card/' + $scope.card_id).then(function(response){
+            $scope.card = response.data[0];
+            console.log($scope.card);
+        });
+
         $scope.cancel = function() {
             $scope.newCard.name = '';
             $scope.newCard.description = '';
             $mdDialog.cancel();
-        };
-
-        $scope.create = function() {
-            $http.post("/project/" + $routeParams.id + "/card", {
-                card: $scope.newCard
-            }).then(function(response) {
-                if (response.data.success) {
-                    $mdToast.show(
-                      $mdToast.simple()
-                        .textContent(response.data.message)
-                        .position('top right')
-                        .hideDelay(3000)
-                    );
-                    $scope.project.cards.push(angular.copy($scope.newCard)); // When we get to EDIT funtionality, we'll have to get actual entry that was saved to database as we'll need the ID of it
-                    $scope.cardsByStates[$scope.newCard.state].push(angular.copy($scope.newCard));
-                    $mdDialog.cancel();
-                } else {
-                    alert(response.data.message);
-                }
-            }, function (response) {
-                alert(response);
-            });
         };
 
         $scope.loadAssignees = function () {
