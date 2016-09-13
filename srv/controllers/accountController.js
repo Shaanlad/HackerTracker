@@ -1,7 +1,7 @@
 var path = require('path');
 var User = require('../models/userModel.js');
 
-module.exports.controller = function(app, mongoose) {
+module.exports.controller = function(app, mongoose, mailer) {
     app.get('/login', function(req, res) {
         // If user isn't already logged in
         if (!req.session['user_id']) {
@@ -85,7 +85,20 @@ module.exports.controller = function(app, mongoose) {
                     // If userName is not in use
                     if(result){
                         // Signup the user
-                        var user_id = app.Users.Signup(req.body.userName, req.body.password);
+                        var user_id = app.Users.Signup(req.body.userName, req.body.email, req.body.password);
+                        mailer.sendMail({
+                            from: "Oreo Slacker<hacker.o.tracker@gmail.com>", // sender address
+                            to: req.body.email, // list of receivers
+                            subject: "Welcome to HackerTracker ✔", // Subject line
+                            text: "TL;DR Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order.", // plaintext body
+                            html: "<b>TL;DR ✔</b><br/>Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order." // html body
+                        }, function (error, response){
+                            if(error){
+                                console.log(error);
+                            }else{
+                                console.log("Message sent: " + response.message);
+                            }
+                        });
                         req.session["user_id"] = user_id;
                         res.json({
                             success: true,

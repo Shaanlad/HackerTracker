@@ -32,6 +32,7 @@
     "font-awesome": "^4.6.3",
     "hashmap": "^2.0.4",
     "mongodb": "^2.2.9",
-    "mongoose": "~3.6.13"
+    "mongoose": "~3.6.13",
+    "nodemailer": "^v0.7.1"
   }
 }

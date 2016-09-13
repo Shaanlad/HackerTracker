@@ -2,6 +2,7 @@ angular.module('HackerTracker').controller('signupController', ['$http', '$scope
     $scope.signup = function() {
         $http.post('/signup', {
             userName: $scope.userName,
+            email: $scope.email,
             password: $scope.password
         }).then(function(response) {
             if (response.data.success == true) {
