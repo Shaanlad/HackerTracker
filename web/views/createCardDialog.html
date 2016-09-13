@@ -1,8 +1,8 @@
-<md-dialog aria-label="Create New Card">
+<md-dialog aria-label="{{cardCreator.actionText}} Card">
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{cardCreator.actionText}} New Card</h2>
+        <h2>{{cardCreator.actionText}} Card</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
         </md-button>
@@ -11,13 +11,13 @@
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <md-input-container>
+        <md-input-container class="md-block">
             <label for="name">
                 Name:
             </label>
             <input class="md-input" type="text" id="name" data-ng-model="cardCreator.card.name" required>
         </md-input-container>
-        <md-input-container>
+        <md-input-container class="md-block">
             <label for="description">
                 Description:
             </label>
@@ -35,7 +35,7 @@
             </label>
             <md-datepicker id="endDate" data-ng-model="cardCreator.card.endDate" required>
         </md-input-container>
-        <md-input-container>
+        <md-input-container class="md-block">
             <label for="assignees">
                 Assignee(s)
             </label>
@@ -52,6 +52,8 @@
                 </md-optgroup>
             </md-select>
         </md-input-container>
+      </div>
+      <div class="md-dialog-content">
         <md-input-container>
             <label for="estimatedTime">
                 Estimated Time (hr):

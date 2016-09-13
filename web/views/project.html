@@ -90,14 +90,14 @@
 
 <hr/>
 <div style="position: inline-block; margin-top: 150px;">
-    <div ng-repeat="state in project.states" ng-drop="true">
+    <div ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)">
         <md-toolbar style="display: inline-block;">
             <span class="title" style="text-align: center;">{{state.name}}</span>
             <i class="fa fa-plus" aria-hidden="true" style="text-align: right; vertical-align: top;" data-ng-click="showCardCreator(state.name, $event)"></i>
         </md-toolbar>   
         <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
                 ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
-                data-ng-click="showCardEditor(card._id, $event)" ng-drop-success="onDropComplete(state.name,card,$event)">
+                data-ng-click="showCardEditor(card._id, $event);return(0);">
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">{{card.name}}</span>
