@@ -1,12 +1,35 @@
 angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', '$mdToast', function($http, $scope, $routeParams, $mdDialog, $mdToast) {
 
     $scope.project = {};
-    $scope.newCard = {};
     $scope.newState = {
         cards: []
     };
 
     $scope.cardsByStates = {};
+    $scope.cardCreator = {
+        card: {},
+        GetCard: function (cardId, callback) {
+            $http.get('/project/' + $routeParams.id + '/card/' + cardId).then(function(response){
+                $scope.cardCreator.card = response.data;
+                $scope.cardCreator.card.startDate = new Date($scope.cardCreator.card.startDate);
+                $scope.cardCreator.card.endDate = new Date($scope.cardCreator.card.endDate);
+                if (typeof callback === "function")
+                    callback(response);
+            });
+        },
+        GetAssignee: function (assigneeId) {
+            for (var i = 0; i < $scope.cardCreator.users.length; i++) {
+                if ($scope.cardCreator.users[i]._id == assigneeId) {
+                    return $scope.cardCreator.users[i];
+                }
+            }
+            for (var i = 0; i < $scope.cardCreator.groups.length; i++) {
+                if ($scope.cardCreator.groups[i]._id == assigneeId) {
+                    return $scope.cardCreator.groups[i];
+                }
+            }
+        }
+    };
 
     $scope.initCardsByStates = function () {
         for (var i = 0; i < $scope.project.states.length; i++) {            
@@ -18,14 +41,32 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
             }
             $scope.cardsByStates[$scope.project.states[i].name] = cards;
         }
-        console.log($scope.cardsByStates);
+    }
+
+    $scope.initAssignees = function () {
+        $http.get('/project/' + $routeParams.id + '/assignees/')
+            .then(function(response) {
+                $scope.cardCreator.users = response.data.users;
+                $scope.cardCreator.groups = response.data.groups;
+            });
+    }
+
+    $scope.initAssigneeIds = function (card) {
+        card.assigneeIds = [];
+        for (var i = 0; i < card.assignees.length; i++) {
+            card.assigneeIds.push(card.assignees[i]._id);
+        }
     }
     
-    $http.get('project/' + $routeParams.id).then(function(response) {
-        console.log(response.data);
-        $scope.project = response.data;
-        $scope.initCardsByStates();
-    });
+    $scope.initProject = function () {
+        $http.get('project/' + $routeParams.id).then(function(response) {
+            $scope.project = response.data;
+            $scope.initCardsByStates();
+            $scope.initAssignees();
+        });
+    }
+
+    $scope.initProject();
 
     $scope.centerAnchor = true;
     
@@ -40,7 +81,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         if (index == -1)
             $scope.cardsByStates[stateName].push(card);
 
-        $http.put("/project/" + $routeParams.id + "/card", {
+        $http.put('/project/' + $routeParams.id + '/card/' + card._id, {
             card: card
         }).then(function(response) {
             if (response.data.success) {
@@ -56,8 +97,8 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         });
 
     }
-    $scope.onDragSuccess = function (stateName, data, evt) {
-        var index = $scope.cardsByStates[stateName].indexOf(data);
+    $scope.onDragSuccess = function (stateName, card, evt) {
+        var index = $scope.cardsByStates[stateName].indexOf(card);
         if (index > -1) {
             $scope.cardsByStates[stateName].splice(index, 1);
         }
@@ -68,8 +109,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     }
 
     $scope.showCardCreator = function(stateName, ev) {
-        if ($scope.newCard)
-            $scope.newCard.state = stateName;
+        $scope.cardCreator.card.state = stateName;
         $mdDialog.show({
             controller: CardCreatorController,
             scope: $scope.$new(),
@@ -86,14 +126,12 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         });
     };
 
-    $scope.showCardEditor = function(stateName, ev, card_id) {
-        if ($scope.newCard)
-            $scope.newCard.state = stateName;
-        $scope.card_id = card_id;
+    $scope.showCardEditor = function(cardId, ev) {
+        $scope.cardCreator.cardId = cardId;
         $mdDialog.show({
             controller: CardEditorController,
             scope: $scope.$new(),
-            templateUrl: '/views/editCardDialog.html',
+            templateUrl: '/views/createCardDialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose:true,
@@ -107,18 +145,27 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
     };
 
     function CardCreatorController($scope, $mdDialog) {
-        $scope.newCard.name = '';
-        $scope.newCard.description = '';
+        $scope.cardCreator.card.name = '';
+        $scope.cardCreator.card.description = '';
+        $scope.cardCreator.actionText = 'Create';
+        $scope.cardCreator.saveText = 'Create';
 
-        $scope.cancel = function() {
-            $scope.newCard.name = '';
-            $scope.newCard.description = '';
+        $scope.cancelCard = function() {
+            $scope.cardCreator.card.name = '';
+            $scope.cardCreator.card.description = '';
             $mdDialog.cancel();
         };
 
-        $scope.create = function() {
-            $http.post("/project/" + $routeParams.id + "/card", {
-                card: $scope.newCard
+        $scope.saveCard = function() {
+            // Workaround to display/check existing use/group selection
+            $scope.cardCreator.card.assignees = [];
+            for (var i = 0; i < $scope.cardCreator.card.assigneeIds.length; i++) {
+                $scope.cardCreator.card.assignees.push($scope.cardCreator.GetAssignee($scope.cardCreator.card.assigneeIds[i]))
+            }
+            $scope.cardCreator.card.assigneeIds = null;
+
+            $http.post('/project/' + $routeParams.id + '/card', {
+                card: $scope.cardCreator.card
             }).then(function(response) {
                 if (response.data.success) {
                     $mdToast.show(
@@ -127,8 +174,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                         .position('top right')
                         .hideDelay(3000)
                     );
-                    $scope.project.cards.push(angular.copy($scope.newCard)); // When we get to EDIT funtionality, we'll have to get actual entry that was saved to database as we'll need the ID of it
-                    $scope.cardsByStates[$scope.newCard.state].push(angular.copy($scope.newCard));
+                    $scope.initProject();
                     $mdDialog.cancel();
                 } else {
                     alert(response.data.message);
@@ -137,53 +183,45 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                 alert(response);
             });
         };
-
-        $scope.loadAssignees = function () {
-            console.log($scope.project);
-            $http.get('/card/assignees/' + $scope.project._id)
-                .then(function(response) {
-                    $scope.users = response.data.users;
-                    $scope.groups = response.data.groups;
-                }, function(response) {});
-        };
     };
 
     function CardEditorController($scope, $mdDialog) {
-        $http.get('/card/' + $scope.card_id).then(function(response){
-            response.data[0].startDate = new Date(response.data[0].startDate);
-            response.data[0].endDate = new Date(response.data[0].endDate);
-            $scope.card = response.data[0];
-            console.log($scope.card);
+        $scope.cardCreator.actionText = 'Edit';
+        $scope.cardCreator.saveText = 'Edit';
+
+        $scope.cardCreator.GetCard($scope.cardCreator.cardId, function () {
+            $scope.initAssigneeIds($scope.cardCreator.card);
         });
 
-        $scope.cancel = function() {
-            $scope.newCard.name = '';
-            $scope.newCard.description = '';
+        $scope.cancelCard = function() {
+            $scope.cardCreator.card.name = '';
+            $scope.cardCreator.card.description = '';
             $mdDialog.cancel();
         };
 
-        $scope.loadAssignees = function () {
-            console.log($scope.project);
-            $http.get('/card/assignees/' + $scope.project._id)
-                .then(function(response) {
-                    $scope.users = response.data.users;
-                    $scope.groups = response.data.groups;
-                }, function(response) {});
-        };
+        $scope.saveCard = function() {
+            // Workaround to display/check existing use/group selection
+            $scope.cardCreator.card.assignees = [];
+            for (var i = 0; i < $scope.cardCreator.card.assigneeIds.length; i++) {
+                $scope.cardCreator.card.assignees.push($scope.cardCreator.GetAssignee($scope.cardCreator.card.assigneeIds[i]))
+            }
+            $scope.cardCreator.card.assigneeIds = null;
 
-        $scope.editCard = function() {
-            $http.put('/card/' + $scope.card._id, {
-                card: $scope.card,
+            $http.put('/project/' + $routeParams.id + '/card/' + $scope.cardCreator.card._id, {
+                card: $scope.cardCreator.card,
                 project_id: $routeParams.id
             }).then(function(response) {
-                for (var key in $scope.cardsByStates) {
-                    for (var key2 in $scope.cardsByStates[key]) {
-                        if ($scope.cardsByStates[key][key2]._id == $scope.card._id) {
-                            $scope.cardsByStates[key].splice(key2, 1);
-                            $scope.cardsByStates[key].push($scope.card);
-                            return;
-                        }
-                    }
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.initProject();
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
                 }
             });
         }
@@ -216,7 +254,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
 
         $scope.create = function() {
-            $http.post("/project/" + $routeParams.id + "/state", {
+            $http.post('/project/' + $routeParams.id + '/state', {
                 state: $scope.newState
             }).then(function(response) {
                 if (response.data.success) {

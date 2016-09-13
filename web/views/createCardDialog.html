@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Create New Card</h2>
+        <h2>{{cardCreator.actionText}} New Card</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
         </md-button>
@@ -15,38 +15,38 @@
             <label for="name">
                 Name:
             </label>
-            <input class="md-input" type="text" id="name" data-ng-model="newCard.name" required>
+            <input class="md-input" type="text" id="name" data-ng-model="cardCreator.card.name" required>
         </md-input-container>
         <md-input-container>
             <label for="description">
                 Description:
             </label>
-            <input class="md-input" type="text" id="description" data-ng-model="newCard.description" required>
+            <input class="md-input" type="text" id="description" data-ng-model="cardCreator.card.description" required>
         </md-input-container>
         <md-input-container>
             <label for="startDate">
                 Start Date:
             </label>
-            <md-datepicker id="startDate" data-ng-model="newCard.startDate">
+            <md-datepicker id="startDate" data-ng-model="cardCreator.card.startDate">
         </md-input-container>
         <md-input-container>
             <label for="endDate">
                 End Date:
             </label>
-            <md-datepicker id="endDate" data-ng-model="newCard.endDate" required>
+            <md-datepicker id="endDate" data-ng-model="cardCreator.card.endDate" required>
         </md-input-container>
         <md-input-container>
             <label for="assignees">
                 Assignee(s)
             </label>
-            <md-select data-ng-model="newCard.assignees" id="assignees" md-on-open="loadAssignees()" multiple>
+            <md-select data-ng-model="cardCreator.card.assigneeIds" id="assignees" multiple>
                 <md-optgroup label="Users">
-                    <md-option data-ng-value="user" data-ng-repeat="user in users">
-                        {{user.name}}
+                    <md-option data-ng-value="user._id" data-ng-repeat="user in cardCreator.users">
+                        {{user.userName}}
                     </md-option>
                 </md-optgroup>
                 <md-optgroup label="Groups">
-                    <md-option data-ng-value="group" data-ng-repeat="group in groups">
+                    <md-option data-ng-value="group._id" data-ng-repeat="group in cardCreator.groups">
                         {{group.name}}
                     </md-option>
                 </md-optgroup>
@@ -56,23 +56,23 @@
             <label for="estimatedTime">
                 Estimated Time (hr):
             </label>
-            <input class="md-input" type="number" id="estimatedTime" data-ng-model="newCard.estimatedTime" required>
+            <input class="md-input" type="number" id="estimatedTime" data-ng-model="cardCreator.card.estimatedTime" required>
         </md-input-container>
         <md-input-container>
             <label for="actualTime">
                 Actual Time (hr):
             </label>
-            <input class="md-input" type="number" id="actualTime" data-ng-model="newCard.actualTime">
+            <input class="md-input" type="number" id="actualTime" data-ng-model="cardCreator.card.actualTime">
         </md-input-container>
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="create()" class="md-primary">
-       Create
+      <md-button ng-click="saveCard()" class="md-primary">
+       {{cardCreator.saveText}}
       </md-button>
-      <md-button ng-click="cancel()">
+      <md-button ng-click="cancelCard()">
         Cancel
       </md-button>
     </md-dialog-actions>

@@ -97,7 +97,7 @@
         </md-toolbar>   
         <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
                 ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
-                data-ng-click="showCardEditor(state.name, $event, card._id)" ng-drop-success="onDropComplete(state.name,card,$event)">
+                data-ng-click="showCardEditor(card._id, $event)" ng-drop-success="onDropComplete(state.name,card,$event)">
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">{{card.name}}</span>

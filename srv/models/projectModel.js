@@ -13,14 +13,7 @@ var ProjectSchema = new Schema({
 			name: String,
 			description: String,
 			creator: String,
-			assignedUsers: [{
-				_id: Schema.ObjectId,
-				name: String
-			}],
-			assignedGroups: [{
-				_id: Schema.ObjectId,
-				name: String
-			}],
+			assignees: [],
 			startDate: Date,
 			endDate: Date,
 			estimatedTime: Number,

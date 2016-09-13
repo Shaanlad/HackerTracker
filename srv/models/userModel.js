@@ -4,7 +4,8 @@ var Schema 		= mongoose.Schema;
 var UserSchema = new Schema({
 	userName: String,
 	password: String,
-	socketId: String
+    email: String,
+    socketId: String
 });
 
 UserSchema.methods.SetSocketId = function(socketId) {

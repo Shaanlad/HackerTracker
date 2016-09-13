@@ -90,8 +90,8 @@ module.exports.controller = function(app, mongoose, mailer) {
                             from: "Oreo Slacker<hacker.o.tracker@gmail.com>", // sender address
                             to: req.body.email, // list of receivers
                             subject: "Welcome to HackerTracker ✔", // Subject line
-                            text: "TL;DR Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order.", // plaintext body
-                            html: "<b>TL;DR ✔</b><br/>Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order." // html body
+                            text: "Hi there " + req.body.userName + "! Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order.", // plaintext body
+                            html: "<b>Hi there " + req.body.userName + "! ✔</b><br/>Just log in and help yourself increase your productivity just by shuffling the cards until you get things in order." // html body
                         }, function (error, response){
                             if(error){
                                 console.log(error);

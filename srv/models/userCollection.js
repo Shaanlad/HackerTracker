@@ -13,10 +13,11 @@ function Users() {
         delete userMap[userId];
     };
 
-    this.Signup = function(userName, password) {
+    this.Signup = function(userName, email, password) {
         var user = new User();
         user.userName = userName;
         user.password = password;
+        user.email = email;
         user.save(function(err,result) {
             if (err) {
                 console.log(err);
