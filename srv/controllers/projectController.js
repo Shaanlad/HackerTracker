@@ -12,7 +12,7 @@ module.exports.controller = function (app, mongoose) {
         }
         else{
             Project.find({
-                    users: req.session['user_id']
+                    'users._id': mongoose.Types.ObjectId(req.session['user_id'])
                 },
                 null,
                 {
