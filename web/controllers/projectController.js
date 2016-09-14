@@ -1,8 +1,11 @@
-angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', '$mdToast', function($http, $scope, $routeParams, $mdDialog, $mdToast) {
+angular.module('HackerTracker').controller('projectController', ['$http', '$scope', '$routeParams', '$mdDialog', '$mdToast', '$location', function($http, $scope, $routeParams, $mdDialog, $mdToast, $location) {
 
     $scope.project = {};
     $scope.newState = {
         cards: []
+    };
+    $scope.fabMenu = {
+        isOpen: false
     };
 
     $scope.cardsByStates = {};
@@ -32,6 +35,10 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
             }
         }
     };
+
+    $scope.Home = function () {
+        $location.path('/');
+    }
 
     $scope.initCardsByStates = function () {
         for (var i = 0; i < $scope.project.states.length; i++) {            

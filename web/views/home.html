@@ -1,6 +1,12 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Home</h2>
+        <span flex="" class="flex"></span>
+	    <md-button data-ng-click="showAdvanced($event)" class="md-secondary md-raised" style="width: 110px;">New Project</md-button>
+	    <md-button ng-href="/logout" class="md-secondary md-raised" style="width: 110px;">Logout</md-button>
+    </div>
+</md-toolbar>
 <div>
-    <md-button data-ng-click="showAdvanced($event)" class="md-primary md-raised">Create Project</md-button>
-    <md-button ng-href="/logout" class="md-primary md-raised">Logout</md-button>
     <ul>
         <li data-ng-repeat="project in projects">
             <a href="#/project/{{project._id}}">{{project.name}}</a>
