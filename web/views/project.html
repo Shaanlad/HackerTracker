@@ -6,7 +6,7 @@
                 Home
             </md-tooltip>
         </md-button>
-        <h2>{{project.name}} Long Long Longs</h2>
+        <h2>{{project.name}}</h2>
         <md-icon class="material-icons"></md-icon>
         <md-fab-speed-dial md-open="fabMenu.isOpen" md-direction="right" class="md-fling" ng-mouseenter="fabMenu.isOpen=true" ng-mouseleave="fabMenu.isOpen=false">
             <md-fab-trigger>
@@ -21,7 +21,7 @@
                         Edit
                     </md-tooltip>
                 </md-button>
-                <md-button aria-label="Assign" class="md-fab md-raised md-mini">
+                <md-button data-ng-click="showProjectUserManager();" aria-label="Assign" class="md-fab md-raised md-mini">
                     <md-icon class="material-icons">assignment ind</md-icon>
                     <md-tooltip md-direction="bottom">
                         Manage Users

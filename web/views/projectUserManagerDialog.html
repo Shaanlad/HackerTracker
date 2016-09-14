@@ -1,0 +1,35 @@
+<div layout="column" ng-cloak>
+
+    <md-content class="md-padding autocomplete" layout="column">
+        <md-contact-chips
+            ng-model="users"
+            md-contact-name="userName"
+            md-contact-image="image"
+            md-contact-email="email"
+            md-require-match="true"
+            md-highlight-flags="i"
+            filter-selected="filterSelected"
+            placeholder="To">
+        </md-contact-chips>
+
+        <md-list class="fixedRows">
+            <md-subheader class="md-no-sticky">Users</md-subheader>
+            {{allUsers}}
+            {{users}}
+            <md-list-item class="md-2-line contact-item" ng-repeat="user in allUsers" ng-if="users.indexOf(user) < 0">
+            <img ng-src="http://365psd.com/images/premium/thumbs/176/male-profile-picture-placeholder-809068.jpg" class="md-avatar" alt="{{user.userName}}" />
+                <div class="md-list-item-text compact">
+                <h3>{{user.userName}}</h3>
+                <p>{{user.email}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line contact-item selected" ng-repeat="user in users">
+                <img ng-src="http://365psd.com/images/premium/thumbs/176/male-profile-picture-placeholder-809068.jpg" class="md-avatar" alt="{{user.userName}}" />
+                <div class="md-list-item-text compact">
+                    <h3>{{user.userName}}</h3>
+                    <p>{{user.email}}</p>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>

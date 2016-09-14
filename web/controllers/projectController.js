@@ -287,4 +287,32 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
     };
 
+    $scope.showProjectUserManager = function() {
+        $mdDialog.show({
+            controller: xyz,
+            scope: $scope.$new(),
+            templateUrl: '/views/projectUserManagerDialog.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function() {
+            // $scope.create();
+        }, function() {
+            $mdDialog.cancel();
+        });
+    };
+
+    function xyz($scope, $mdDialog) {
+        $http.get('/project/' + $routeParams.id + '/users/all/').then(function(response){
+            $scope.users = response.data.users;
+            $scope.allUsers = response.data.allUsers;
+        });
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+    };
+
+
 }]);

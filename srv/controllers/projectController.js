@@ -221,5 +221,29 @@ module.exports.controller = function (app, mongoose) {
         }
     });
 
+    //Get all users available for project having specified projectId
+    app.get('/project/:projectId/users/all', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    if (err)
+                        res.json(err);
+                    else
+                        User.find({}, function(err, users) {
+                            if (err)
+                                res.json(err);
+                            else
+                                res.json({allUsers: users, users: project.users});
+                        })
+                });
+        }
+    });
+
 
 };
