@@ -11,8 +11,10 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         GetCard: function (cardId, callback) {
             $http.get('/project/' + $routeParams.id + '/card/' + cardId).then(function(response){
                 $scope.cardCreator.card = response.data;
-                $scope.cardCreator.card.startDate = new Date($scope.cardCreator.card.startDate);
-                $scope.cardCreator.card.endDate = new Date($scope.cardCreator.card.endDate);
+                if ($scope.cardCreator.card.startDate)
+                    $scope.cardCreator.card.startDate = new Date($scope.cardCreator.card.startDate);
+                if ($scope.cardCreator.card.endDate)
+                    $scope.cardCreator.card.endDate = new Date($scope.cardCreator.card.endDate);
                 if (typeof callback === "function")
                     callback(response);
             });

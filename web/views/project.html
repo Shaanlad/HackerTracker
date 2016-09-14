@@ -1,12 +1,11 @@
-<md-toolbar style="position: fixed; height: 100px;">
-    <h2 style="display: flex;">
-        <span>{{project.name}}</span>
-        <div style="position: inline-block; text-align: right; vertical-align: top; margin-left: 50%;">
-            <md-button data-ng-href="#/" class="md-secondary md-raised" style="width: 100px;">Home</md-button>
-            <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised" style="width: 100px;">Add State</md-button>
-            <md-button data-ng-href="/logout" class="md-secondary md-raised" style="width: 100px;">Logout</md-button>
-        </div>
-    </h2>
+<md-toolbar style="position: fixed;">
+    <div class="md-toolbar-tools">
+        <h2>{{project.name}}</h2>
+        <span flex="" class="flex"></span>
+        <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised" style="width: 100px;">Add State</md-button>
+        <md-button data-ng-href="#/" class="md-secondary md-raised" style="width: 100px;">Home</md-button>
+        <md-button data-ng-href="/logout" class="md-secondary md-raised" style="width: 100px;">Logout</md-button>
+    </div>
 </md-toolbar>
     <style>
         * {
@@ -14,26 +13,6 @@
             -webkit-box-sizing: border-box;
             box-sizing: border-box;
         }
-        /*[ng-drag] {
-            -moz-user-select: -moz-none;
-            -khtml-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        [ng-drag] {
-            width: 80%;
-            height: 100px;
-            background: rgba(255, 0, 0, 0.5);
-            color: white;
-            text-align: center;
-            padding-top: 40px;
-            display: inline-block;
-            margin: 0 10px;
-            cursor: move;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }*/
         ul.draggable-objects:after {
             display: block;
             content: "";
@@ -54,7 +33,7 @@
         [ng-drop] {
             background: rgba(0, 255, 0, 0.5);
             text-align: center;
-            width: 40%;
+            /*width: 48%;*/
             min-height: 200px;
             display: inline-block;
             margin: 20px auto;
@@ -66,16 +45,6 @@
         [ng-drop].drag-enter {
             border: solid 5px red;
         }
-        [ng-drop] span.title {
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 20px;
-            margin-left: -100px;
-            margin-top: -10px;
-        }
         [ng-drop] div {
             position: relative;
             z-index: 2;
@@ -83,18 +52,16 @@
     </style>
 </head>
 
-<!-- <ul class="draggable-objects">
-    <li ng-if="true" ng-hide="true">
-        <div ng-drag="true" ng-drag-data="{name:newCard.name}" data-allow-transform="true">{{newCard.name}}</div>
-    </li>
-</ul> -->
-
 <hr/>
-<div style="position: inline-block; margin-top: 150px;">
-    <div ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)">
-        <md-toolbar style="display: inline-block;">
-            <span class="title" style="text-align: center;">{{state.name}}</span>
-            <i class="fa fa-plus" aria-hidden="true" style="text-align: right; vertical-align: top;" data-ng-click="showCardCreator(state.name, $event)"></i>
+<div style="position: inline-block; margin-top: 150px;" layout="row" layout-wrap>
+    <div flex="90" flex-md="40" flex-gt-md="30" layout-wrap ng-repeat="state in project.states" ng-drop="true" ng-drop-success="onDropComplete(state.name,$data,$event)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3 flex="" class="flex" style="text-align: center;">{{state.name}}</h3>
+                <md-button data-ng-click="showCardCreator(state.name, $event)">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+            </div>
         </md-toolbar>   
         <md-card ng-repeat="card in cardsByStates[state.name]" ng-drag="true" ng-drag-data="card"
                 ng-drag-success="onDragSuccess(state.name,$data,$event)" ng-center-anchor="{{centerAnchor}}"
