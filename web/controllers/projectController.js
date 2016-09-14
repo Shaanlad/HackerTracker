@@ -191,6 +191,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                     );
                     $scope.initProject();
                     $mdDialog.cancel();
+                    $scope.cardCreator.card = {};
                 } else {
                     alert(response.data.message);
                 }
