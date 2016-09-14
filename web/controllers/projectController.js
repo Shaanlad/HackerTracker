@@ -40,6 +40,10 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         $location.path('/');
     }
 
+    $scope.Edit = function () {
+        $location.path('/project/settings/' + $scope.project._id);
+    }
+
     $scope.initCardsByStates = function () {
         for (var i = 0; i < $scope.project.states.length; i++) {            
             var cards = [];
@@ -289,7 +293,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
 
     $scope.showProjectUserManager = function() {
         $mdDialog.show({
-            controller: xyz,
+            controller: ProjectUserManagerController,
             scope: $scope.$new(),
             templateUrl: '/views/projectUserManagerDialog.html',
             parent: angular.element(document.body),
@@ -303,7 +307,7 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         });
     };
 
-    function xyz($scope, $mdDialog) {
+    function ProjectUserManagerController($scope, $mdDialog) {
         $http.get('/project/' + $routeParams.id + '/users/all/').then(function(response){
             $scope.users = response.data.users;
             $scope.allUsers = response.data.allUsers;

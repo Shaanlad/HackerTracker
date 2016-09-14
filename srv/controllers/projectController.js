@@ -245,5 +245,53 @@ module.exports.controller = function (app, mongoose) {
         }
     });
 
+    app.post('/project/:projectId/addUser/:userId', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    if (err)
+                        res.json(err);
+                    else
+                        User.findById(
+                            req.params.userId,
+                            function(err, user) {
+                                project.users.push(user);
+                                project.save();
+                                res.json(true);
+                                return;
+                            }
+                        );
+                }
+            );
+        };
+    });
 
+    app.post('/project/:projectId/removeUser/:userId', function(req, res) {
+        // If user isn't already logged in
+        if (!req.session['user_id']) {
+            // Take him to login page
+            res.redirect('/login');
+        }
+        else{
+            Project.findById(
+                req.params.projectId,
+                function(err, project) {
+                    req.body.state.creator = req.session['user_id'];
+                    for (var key in project.users) {
+                        if (project.users[key]._id == req.params.userId) {
+                            project.users.splice(key, 1);
+                            project.save();
+                            res.json(true);
+                            return;
+                        }
+                    }
+                });
+        }
+    });
 };
