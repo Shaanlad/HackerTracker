@@ -1,0 +1,88 @@
+<md-toolbar>
+    <div class="md-toolbar-tools" ng-cloak>
+        <md-button data-ng-click="Home();" style="height: 100%;" class="md-primary md-raised">
+            <md-icon class="material-icons">home</md-icon>
+            <md-tooltip md-direction="bottom">
+                Home
+            </md-tooltip>
+        </md-button>
+        <h2>{{project.name}}</h2>
+        <md-icon class="material-icons"></md-icon>
+        <md-fab-speed-dial md-open="fabMenu.isOpen" md-direction="right" class="md-fling" ng-mouseenter="fabMenu.isOpen=true" ng-mouseleave="fabMenu.isOpen=false">
+            <md-fab-trigger>
+                <md-button aria-label="menu" style="height: 100%;" class="md-primary md-raised">
+                    <md-icon class="material-icons">settings</md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button aria-label="Edit" class="md-fab md-raised md-mini">
+                    <md-icon class="material-icons">edit</md-icon>
+                    <md-tooltip md-direction="bottom">
+                        Edit
+                    </md-tooltip>
+                </md-button>
+                <md-button aria-label="Assign" class="md-fab md-raised md-mini">
+                    <md-icon class="material-icons">assignment ind</md-icon>
+                    <md-tooltip md-direction="bottom">
+                        Manage Users
+                    </md-tooltip>
+                </md-button>
+                <md-button aria-label="Delete" class="md-fab md-raised md-mini">
+                    <md-icon class="material-icons">delete</md-icon>
+                    <md-tooltip md-direction="bottom">
+                        Delete
+                    </md-tooltip>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+        <span flex="" class="flex"></span>
+        <md-button data-ng-click="showStateCreator()" class="md-secondary md-raised" style="width: 110px;">Add State</md-button>
+        <md-button data-ng-href="/logout" class="md-secondary md-raised" style="width: 110px;">Logout</md-button>
+    </div>
+</md-toolbar>
+<div class="lock-size" layout="row" layout-align="center center" ng-cloak>
+</div>
+    <style>
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        ul.draggable-objects:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+        .draggable-objects li {
+            float: left;
+            display: block;
+            width: 120px;
+            height: 100px;
+        }
+        [ng-drag].drag-over {
+            border: solid 1px red;
+        }
+        [ng-drag].dragging {
+            opacity: 0.5;
+        }
+        [ng-drop] {
+            background: rgba(0, 255, 0, 0.5);
+            text-align: center;
+            /*width: 48%;*/
+            min-height: 200px;
+            display: inline-block;
+            margin: 20px auto;
+            position: relative;
+            vertical-align: top;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        [ng-drop].drag-enter {
+            border: solid 5px red;
+        }
+        [ng-drop] div {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
