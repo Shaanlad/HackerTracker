@@ -11,5 +11,8 @@ app.config(function($mdThemingProvider, $routeProvider) {
     	templateUrl : 'views/project.html',
     	controller 	: 'projectController'
     })
-
+    .when('/project/settings/:id',{
+    	templateUrl : 'views/projectSettings.html',
+    	controller 	: 'projectSettingsController'
+    })
 });
