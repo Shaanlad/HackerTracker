@@ -70,7 +70,9 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <span flex></span>
+      <md-button ng-click="deleteCard()" ng-if="cardCreator.actionText == 'Edit'" class="md-warn">
+        Delete
+      </md-button>
       <md-button ng-click="saveCard()" class="md-primary">
        {{cardCreator.saveText}}
       </md-button>

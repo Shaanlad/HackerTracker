@@ -98,6 +98,22 @@ module.exports.controller = function (app, mongoose) {
                 project.save();
                 project.cards.push(req.body.card);
                 project.save();
+                res.json(true);
+        });
+    });
+
+    app.delete('/card/:card_id', function(req, res){
+        Project.findById(
+            req.body.project_id,
+            function(err, project) {
+                for (var key in project.cards) {
+                    if (project.cards[key]._id == req.params.card_id) {
+                        project.cards.splice(key, 1);
+                        break;
+                    }
+                }
+                project.save();
+                res.json(true);
         });
     });
 };

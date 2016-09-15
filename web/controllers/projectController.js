@@ -240,7 +240,27 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
                     alert(response.data.message);
                 }
             });
-        }
+        };
+
+        $scope.deleteCard = function() {
+           $http.delete('/card/' + $scope.cardCreator.card._id, {
+                project_id: $routeParams.id,
+                card_id: $scope.cardCreator.card._id
+            }).then(function(response) {
+                if (response.data.success) {
+                    $mdToast.show(
+                      $mdToast.simple()
+                        .textContent(response.data.message)
+                        .position('top right')
+                        .hideDelay(3000)
+                    );
+                    $scope.initProject();
+                    $mdDialog.cancel();
+                } else {
+                    alert(response.data.message);
+                }
+            }); 
+        };
     };
 
     $scope.showStateCreator = function() {
