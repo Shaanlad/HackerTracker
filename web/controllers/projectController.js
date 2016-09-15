@@ -243,11 +243,9 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         };
 
         $scope.deleteCard = function() {
-           $http.delete('/card/' + $scope.cardCreator.card._id, {
-                project_id: $routeParams.id,
-                card_id: $scope.cardCreator.card._id
-            }).then(function(response) {
-                if (response.data.success) {
+           $http.delete('/card/' + $routeParams.id + '/' + $scope.cardCreator.card._id)
+           .then(function(response) {
+                if (response.data == true) {
                     $mdToast.show(
                       $mdToast.simple()
                         .textContent(response.data.message)
@@ -336,8 +334,5 @@ angular.module('HackerTracker').controller('projectController', ['$http', '$scop
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
-
     };
-
-
 }]);

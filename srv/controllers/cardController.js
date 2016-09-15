@@ -102,9 +102,9 @@ module.exports.controller = function (app, mongoose) {
         });
     });
 
-    app.delete('/card/:card_id', function(req, res){
+    app.delete('/card/:project_id/:card_id', function(req, res){
         Project.findById(
-            req.body.project_id,
+            req.params.project_id,
             function(err, project) {
                 for (var key in project.cards) {
                     if (project.cards[key]._id == req.params.card_id) {
