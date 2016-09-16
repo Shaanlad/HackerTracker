@@ -4,8 +4,24 @@ var Schema		= mongoose.Schema;
 var ProjectSchema = new Schema({
 	name: String,
 	description: String,
-	users: [],
-	groups: [],
+	users: [
+		{
+			_id: Schema.ObjectId,
+			userName: String
+		}
+	],
+	groups: [
+		{
+			_id: Schema.ObjectId,
+			name: String,
+			users: [
+				{
+					_id: Schema.ObjectId,
+					userName: String
+				}
+			]
+		}
+	],
 	cards: [
 		{
 			_id: Schema.ObjectId,

@@ -86,3 +86,14 @@
         }
     </style>
 </head>
+
+<md-input-container class="md-block">
+    <label for="users">
+        Users
+    </label>
+    <md-select data-ng-model="cardCreator.card.assigneeIds" id="users" multiple>
+        <md-option data-ng-value="user._id" data-ng-repeat="user in cardCreator.users">
+            {{user.userName}}
+        </md-option>
+    </md-select>
+</md-input-container>
