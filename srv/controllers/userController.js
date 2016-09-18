@@ -25,6 +25,11 @@ module.exports.controller = function (app, mongoose) {
             User.find({}, null, {
                     sort:{name: -1}
                 }, function(err, result) {
+                    for (var key in result) {
+                        delete result[key]._doc.password;
+                        delete result[key]._doc.email;
+                    }
+                    
                     allUsers = result;
                     res.json({
                         'projectUsers' : projectUsers, 
